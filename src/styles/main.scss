@@ -402,16 +402,6 @@ input {
    background: red;
    position: relative;
    animation: 2s linear 0s infinite alternate jump;
-   @keyframes jump {
-      0% {
-         left: 0px;
-         top: 0px;
-      }
-      100% {
-         left: calc(100% - 40px);
-         top: 0px;
-      }
-   }
 }
 
 .running__square-js,
@@ -420,6 +410,22 @@ input {
    height: 40px;
    background: red;
    position: relative;
+}
+
+.running__square-frame.entered,
+.running__square-js.entered {
+   animation: jump 2s linear forwards alternate infinite;
+}
+
+@keyframes jump {
+   0% {
+      left: 0px;
+      top: 0px;
+   }
+   100% {
+      left: calc(100% - 40px);
+      top: 0px;
+   }
 }
 
 @media screen and (min-width: 600px) and (max-width: 904.99px) {

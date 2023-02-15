@@ -1,179 +1,208 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React, { useEffect, useState, useRef, useLayoutEffect } from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import MailIcon from '@mui/icons-material/Mail';
+import MenuIcon from '@mui/icons-material/Menu';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import styled from '@emotion/styled';
+import SearchIcon from '@mui/icons-material/Search';
+import MoreIcon from '@mui/icons-material/MoreVert';
+import { Transition } from 'react-transition-group';
 
-function App() {
+import { Grid } from '@mui/material';
+
+const StyledDrawer = styled(Drawer)`
+  & .MuiDrawer-paperAnchorLeft {
+    background-color: #ef9a9a;
+    width: 170px;
+    border-right: none;
+    min-height: 100vh;
+    align-items: flex-start;
+    padding: 0 !important;
+  }
+`;
+
+const StyledGrid = styled(Grid)`
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+`;
+
+const GridContainer = styled(Grid)`
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  align-content: space-between;
+`;
+
+const Content = styled(Grid)`
+  min-height: 100vh;
+  background: #ffe0b2;
+  padding: 20px 10px 0 10px !important;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
+
+const Aside = styled(Grid)`
+  min-height: 100vh;
+  background: #bbdefb;
+  padding: 0 !important;
+`;
+
+const Header = styled(Grid)`
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  padding: 0 !important;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f06292;
+`;
+
+const Footer = styled(Grid)`
+  padding: 0 !important;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ce93d8;
+`;
+
+export default function ResponsiveDrawer() {
+  const drawer = (
+    <List>
+      {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+        <ListItem key={text} disablePadding>
+          <ListItemButton>
+            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItemButton>
+        </ListItem>
+      ))}
+    </List>
+  );
+
+  const [animationStarted, setAnimationStarted] = useState<boolean | undefined>(false);
+
+  useEffect(() => {
+    setAnimationStarted(true);
+  }, []);
+
   return (
-    <body>
-      <main id="main">
-        <div className="wrapper">
-          <nav className="navigation">
-            <div className="burger__menu">
-              <input id="menu__toggle" type="checkbox" />
-              <label className="burger__menu-btn" htmlFor="menu__toggle">
-                <span></span>
-              </label>
-              <ul className="navigation__list">
-                <li>
-                  <a className="navigation__list-item" href="#">
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a className="navigation__list-item" href="#">
-                    Products
-                  </a>
-                </li>
-                <li>
-                  <a className="navigation__list-item" href="#">
-                    Articles
-                  </a>
-                </li>
-                <li>
-                  <a className="navigation__list-item" href="#">
-                    News
-                  </a>
-                </li>
-                <li>
-                  <a className="navigation__list-item" href="#">
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a className="navigation__list-item" href="#">
-                    Our team
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </nav>
-          <div className="content">
-            <header className="header">
-              <h1>HEADER</h1>
-              <div className="dropdown__wrapper">
-                <div className="dropdown">
-                  <button autoFocus className="dropbtn">
-                    Dropdown
-                  </button>
-                  <div className="dropdown-content">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
-                  </div>
-                </div>
-                <div className="dropdown">
-                  <button autoFocus className="dropbtn">
-                    Dropdown
-                  </button>
-                  <div className="dropdown-content">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
-                  </div>
-                </div>
-                <div className="dropdown">
-                  <button autoFocus className="dropbtn">
-                    Dropdown
-                  </button>
-                  <div className="dropdown-content">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
-                  </div>
-                </div>
-              </div>
-            </header>
-            <div className="content__wrapper">
-              <section className="content__wrapper-article">
-                <div className="canvas__chart">
-                  <canvas id="line-chart"></canvas>
-                </div>
+    <StyledGrid container spacing={2} columns={16}>
+      <Grid item sx={{ minWidth: 200, background: '#ef9a9a', padding: '0 !important' }} xs={3}>
+        <StyledDrawer variant="permanent" anchor="left">
+          {drawer}
+        </StyledDrawer>
+      </Grid>
+      <Grid
+        item
+        sx={{ minHeight: '100%', padding: '0 0 0 170px !important', minWidth: '100%' }}
+        xs={13}
+      >
+        <Box
+          sx={{
+            flexGrow: 1,
+            width: '100%',
+            minHeight: '100vh',
+            background: 'red',
+          }}
+        >
+          <GridContainer container spacing={2}>
+            <Header item xs={12} md={12}>
+              <div>HEADER</div>
+            </Header>
+            <Content item xs={9} md={9}>
+              <Box
+                sx={{
+                  width: '100%',
+                  maxWidth: 400,
+                  height: 'auto',
+                  maxHeight: 300,
+                  backgroundColor: '#40c4ff',
+                }}
+              >
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore sed, necessitatibus
+                consectetur quis delectus assumenda id distinctio non eveniet nulla, optio nihil
+                vero expedita et obcaecati sequi totam eligendi commodi.
+              </Box>
 
-                <div className="search">
-                  <input
-                    autoComplete="off"
-                    id="search"
-                    type="text"
-                    className="input"
-                    placeholder="search..."
-                  />
-                  <ul id="match-list"></ul>
-                  <article className="article article-api"></article>
+              <Box
+                sx={{
+                  width: '100%',
+                  maxWidth: 400,
+                  height: 'auto',
+                  maxHeight: 300,
+                  backgroundColor: '#40c4ff',
+                }}
+              >
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore sed, necessitatibus
+                consectetur quis delectus assumenda id distinctio non eveniet nulla, optio nihil
+                vero expedita et obcaecati sequi totam eligendi commodi.
+                <div className="square__container">
+                  <div className="running__square"></div>
                 </div>
-                <article className="article article-chars"></article>
-
-                <article className="article">
-                  <b>CSS ANIMATION</b>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem at
-                  mollitia explicabo vero rem asperiores dolorum debitis eum ipsam. Animi magnam
-                  voluptates officia veniam aut, odit repellat tenetur minima suscipit? Lorem ipsum
-                  dolor, sit amet consectetur adipisicing elit. Exercitationem at mollitia explicabo
-                  vero rem asperiores dolorum debitis eum ipsam. Animi magnam voluptates officia
-                  veniam aut, odit repellat tenetur minima suscipit? Lorem ipsum dolor, sit amet
-                  consectetur adipisicing elit. Exercitationem at mollitia explicabo vero rem
-                  asperiores dolorum debitis eum ipsam. Animi magnam voluptates officia veniam aut,
-                  odit repellat tenetur minima suscipit?
-                  <div className="square__container">
-                    <div className="running__square"></div>
-                  </div>
-                </article>
-                <article className="article">
-                  <b>REQUEST ANIMATION FRAME</b>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem at
-                  mollitia explicabo vero rem asperiores dolorum debitis eum ipsam. Animi magnam
-                  voluptates officia veniam aut, odit repellat tenetur minima suscipit? Lorem ipsum
-                  dolor, sit amet consectetur adipisicing elit. Exercitationem at mollitia explicabo
-                  vero rem asperiores dolorum debitis eum ipsam. Animi magnam voluptates officia
-                  veniam aut, odit repellat tenetur minima suscipit? Lorem ipsum dolor, sit amet
-                  consectetur adipisicing elit. Exercitationem at mollitia explicabo vero rem
-                  asperiores dolorum debitis eum ipsam. Animi magnam voluptates officia veniam aut,
-                  odit repellat tenetur minima suscipit?
-                  <div className="square__container-frame">
-                    <div className="running__square-frame"></div>
-                  </div>
-                </article>
-                <article className="article">
-                  <b>TIMEOUT ANIMATION</b>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem at
-                  mollitia explicabo vero rem asperiores dolorum debitis eum ipsam. Animi magnam
-                  voluptates officia veniam aut, odit repellat tenetur minima suscipit? Lorem ipsum
-                  dolor, sit amet consectetur adipisicing elit. Exercitationem at mollitia explicabo
-                  vero rem asperiores dolorum debitis eum ipsam. Animi magnam voluptates officia
-                  veniam aut, odit repellat tenetur minima suscipit? Lorem ipsum dolor, sit amet
-                  consectetur adipisicing elit. Exercitationem at mollitia explicabo vero rem
-                  asperiores dolorum debitis eum ipsam. Animi magnam voluptates officia veniam aut,
-                  odit repellat tenetur minima suscipit?
-                  <div className="square__container-js">
-                    <div className="running__square-js"></div>
-                  </div>
-                </article>
-              </section>
-              <aside className="aside">
-                <div className="tab">
-                  <input type="checkbox" id="chck1" />
-                  <label className="tab-label" htmlFor="chck1">
-                    Article 1
-                  </label>
-                  <div className="tab-content">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum, reiciendis!
-                  </div>
+              </Box>
+              <Box
+                sx={{
+                  width: '100%',
+                  maxWidth: 400,
+                  height: 'auto',
+                  maxHeight: 300,
+                  backgroundColor: '#40c4ff',
+                }}
+              >
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore sed, necessitatibus
+                consectetur quis delectus assumenda id distinctio non eveniet nulla, optio nihil
+                vero expedita et obcaecati sequi totam eligendi commodi.
+                <div className="square__container-frame">
+                  <Transition in={animationStarted} timeout={0}>
+                    {(state) => <div className={`running__square-frame ${state}`} />}
+                  </Transition>
                 </div>
-                <div className="tab">
-                  <input type="checkbox" id="chck2" />
-                  <label className="tab-label" htmlFor="chck2">
-                    Article 2
-                  </label>
-                  <div className="tab-content">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. A, in!
-                  </div>
+              </Box>
+              <Box
+                sx={{
+                  width: '100%',
+                  maxWidth: 400,
+                  height: 'auto',
+                  maxHeight: 300,
+                  backgroundColor: '#40c4ff',
+                }}
+              >
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore sed, necessitatibus
+                consectetur quis delectus assumenda id distinctio non eveniet nulla, optio nihil
+                vero expedita et obcaecati sequi totam eligendi commodi.
+                <div className="square__container-js">
+                  <Transition in={animationStarted} timeout={0}>
+                    {(state) => <div className={`running__square-js ${state}`} />}
+                  </Transition>
                 </div>
-              </aside>
-            </div>
-            <footer className="footer">FOOTER</footer>
-          </div>
-        </div>
-      </main>
-    </body>
+              </Box>
+            </Content>
+            <Aside item xs={3} md={3}>
+              <div>ASIDE</div>
+            </Aside>
+            <Footer item xs={12} md={12}>
+              <div>FOOTER</div>
+            </Footer>
+          </GridContainer>
+        </Box>
+      </Grid>
+    </StyledGrid>
   );
 }
-
-export default App;
