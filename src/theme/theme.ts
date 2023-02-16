@@ -50,8 +50,8 @@ const theme: Theme = createTheme({
       styleOverrides: `
          html,
          body {
-            padding:0;
-            margin:0;
+            padding: 0 !important;
+            margin: 0;
             min-height: 100vh;
             width: 100%;
             font-size: 100%;
