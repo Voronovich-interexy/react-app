@@ -13,10 +13,9 @@ import {
   IconButton,
   Drawer,
   Box,
-  Button,
-  Menu,
-  MenuItem,
 } from '@mui/material';
+import { INavBarProps } from '../types/types';
+import Header from './Header';
 
 const drawer = (
   <List>
@@ -30,26 +29,15 @@ const drawer = (
     ))}
   </List>
 );
-const NavBar = ({ drawerWidth }: any) => {
+
+const NavBarHeader = ({ drawerWidth }: INavBarProps) => {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  function handleClick(
-    event: React.MouseEvent<HTMLElement> | React.MouseEvent<HTMLHeadingElement>,
-  ) {
-    if (anchorEl !== event.currentTarget) {
-      setAnchorEl(event.currentTarget as any);
-    }
-  }
-  function handleClose() {
-    setAnchorEl(null);
-  }
 
-  const [anchorEl, setAnchorEl] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   return (
     <>
-      {' '}
       <AppBar
         position="fixed"
         sx={{
@@ -68,36 +56,7 @@ const NavBar = ({ drawerWidth }: any) => {
           >
             <MenuIcon />
           </IconButton>
-          <div className="header_content">
-            <h1>HEADER</h1>
-            <div className="dropdowns">
-              {['q', 'w', 'e'].map((e) => (
-                <Button
-                  key={e}
-                  aria-owns={anchorEl ? 'simple-menu' : undefined}
-                  aria-haspopup="true"
-                  onClick={handleClick}
-                  onMouseOver={handleClick}
-                  sx={{ color: 'white' }}
-                >
-                  Open Menu
-                </Button>
-              ))}
-
-              <Menu
-                sx={{ padding: '0 !important', margin: '0 !important' }}
-                id="q"
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-                MenuListProps={{ onMouseLeave: handleClose }}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
-              </Menu>
-            </div>
-          </div>
+          <Header />
         </Toolbar>
       </AppBar>
       <Box
@@ -134,4 +93,4 @@ const NavBar = ({ drawerWidth }: any) => {
   );
 };
 
-export default NavBar;
+export default NavBarHeader;

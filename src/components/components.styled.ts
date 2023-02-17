@@ -1,6 +1,7 @@
 import Grid from '@mui/material/Grid';
 import styled from '@emotion/styled';
 import Card from '@mui/material/Card';
+import { Box } from '@mui/system';
 
 export const GridContainer = styled(Grid)`
   width: 100% !important;
@@ -39,6 +40,19 @@ export const StyledGrid = styled(Grid)`
   min-height: 100vh;
   padding: 0;
   margin: 0;
+`;
+
+export const GridItem = styled(Grid)`
+  min-height: 100%;
+  padding: 0 !important;
+  min-width: 100%;
+`;
+
+export const ContentBox = styled(Box)`
+  flex-grow: 1;
+  width: 100%;
+  min-height: 100vh;
+  background: red;
 `;
 
 export const Content = styled(Grid)`

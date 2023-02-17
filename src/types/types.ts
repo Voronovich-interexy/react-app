@@ -12,6 +12,7 @@ export type SingleChar = {
   location: {
     name: string;
   };
+  episode: [];
 };
 
 export type ArrayOfChars = {
@@ -41,3 +42,15 @@ export enum SwitchReturned {
   Warning = 'warning',
   Secondary = 'secondary',
 }
+
+export interface INavBarProps {
+  drawerWidth: number;
+}
+
+export type CardsProps = {
+  cards: ArrayOfChars[];
+};
+
+export type AnimationStartedType = {
+  animationStarted: boolean;
+};

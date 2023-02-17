@@ -4,7 +4,7 @@ export const getCharacter = async () => {
   const { data } = await $api.get('character/');
   return data;
 };
-export const getSingleCharacter = async (id: number) => {
+export const getSingleCharacter = async (id: number | string | undefined) => {
   const { data } = await $api.get('character/' + id);
   return data;
 };
