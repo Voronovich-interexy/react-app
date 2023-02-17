@@ -54,3 +54,11 @@ export type CardsProps = {
 export type AnimationStartedType = {
   animationStarted: boolean;
 };
+export type MainComponentProps = {
+  setSingleChar: React.Dispatch<React.SetStateAction<SingleChar | undefined>>;
+  singleChar: SingleChar | undefined;
+  cards: ArrayOfChars[];
+  animationStarted: boolean;
+  clearCharField: boolean;
+  setClearCharField: React.Dispatch<React.SetStateAction<boolean>>;
+};

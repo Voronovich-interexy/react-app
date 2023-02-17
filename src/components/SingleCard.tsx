@@ -8,8 +8,26 @@ import CardContent from '@mui/material/CardContent/CardContent';
 import CardMedia from '@mui/material/CardMedia/CardMedia';
 import { SingleChar } from '../types/types';
 
-const SingleCard = ({ singleChar }: { singleChar: SingleChar | undefined }) => {
+type SingleCardProps = {
+  singleChar: SingleChar | undefined;
+  clearCharField: boolean;
+  setClearCharField: React.Dispatch<React.SetStateAction<boolean>>;
+  setSingleChar: React.Dispatch<React.SetStateAction<SingleChar | undefined>>;
+};
+
+const SingleCard: React.FC<SingleCardProps> = ({
+  singleChar,
+  clearCharField,
+  setClearCharField,
+  setSingleChar,
+}) => {
   const [clicked, setClicked] = useState(false);
+
+  const clearCard = () => {
+    setClearCharField(false);
+    setSingleChar(undefined);
+  };
+
   return (
     <Box
       sx={{
@@ -18,16 +36,26 @@ const SingleCard = ({ singleChar }: { singleChar: SingleChar | undefined }) => {
         backgroundColor: '#40c4ff',
       }}
     >
-      {singleChar ? (
+      {singleChar && clearCharField ? (
         <div
           style={{
             display: 'flex',
+            flexDirection: 'column',
             flexWrap: 'wrap',
             justifyContent: 'center',
+            alignItems: 'center',
             gap: 20,
             padding: '20px 0',
           }}
         >
+          {clearCharField ? (
+            <Button onClick={() => clearCard()} color="info">
+              Clear field
+            </Button>
+          ) : (
+            ''
+          )}
+
           <Card sx={{ minWidth: 180 }}>
             <CardContent>
               {clicked && (

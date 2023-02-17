@@ -5,14 +5,16 @@ import { getCharByName, getSingleCharacter } from '../api/characters';
 
 type SetPropTypes = {
   setSingleChar: React.Dispatch<React.SetStateAction<SingleChar | undefined>>;
+  setClearCharField: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const SearchInput = ({ setSingleChar }: SetPropTypes) => {
+const SearchInput: React.FC<SetPropTypes> = ({ setSingleChar, setClearCharField }) => {
   const [charsByName, setCharsByName] = useState<RickMortyData[]>([]);
   const [open, setOpen] = useState(true);
 
   const getCharById = (id: number) => {
     setOpen(false);
+    setClearCharField(true);
     getSingleCharacter(id).then((char) => setSingleChar(char));
   };
 
