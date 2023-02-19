@@ -1,24 +1,11 @@
-import { useEffect, useState } from 'react';
 import { GridContainer, StyledGrid, GridItem, ContentBox } from './components/components.styled';
 import { Box } from '@mui/material';
-import { fetchFourChars } from './api/characters';
-import { SingleChar, ArrayOfChars } from './types/types';
 import NavBar from './components/NavBarHeader';
 import FooterComponent from './components/FooterComponent';
 import AsideComponent from './components/AsideComponent';
 import MainComponent from './components/MainComponent';
-export default function ResponsiveDrawer() {
+export default function App() {
   const drawerWidth: number = 190;
-  const [animationStarted, setAnimationStarted] = useState<boolean>(false);
-  const [singleChar, setSingleChar] = useState<SingleChar>();
-  const [cards, setCards] = useState<ArrayOfChars[]>([]);
-  const [clearCharField, setClearCharField] = useState<boolean>(true);
-
-  useEffect(() => {
-    setAnimationStarted(true);
-    fetchFourChars([1, 2, 3, 4]).then((cards) => setCards(cards));
-  }, []);
-
   return (
     <Box sx={{ display: 'flex' }}>
       <NavBar drawerWidth={drawerWidth} />
@@ -30,14 +17,7 @@ export default function ResponsiveDrawer() {
           <GridItem item>
             <ContentBox>
               <GridContainer container sx={{ width: '100%', flexGrow: 1 }}>
-                <MainComponent
-                  clearCharField={clearCharField}
-                  setClearCharField={setClearCharField}
-                  animationStarted={animationStarted}
-                  setSingleChar={setSingleChar}
-                  singleChar={singleChar}
-                  cards={cards}
-                />
+                <MainComponent />
                 <AsideComponent />
                 <FooterComponent />
               </GridContainer>

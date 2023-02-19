@@ -1,43 +1,38 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Autocomplete, TextField } from '@mui/material';
-import { RickMortyData, SingleChar } from '../types/types';
-import { getCharByName, getSingleCharacter } from '../api/characters';
+import {
+  closeSearchInput,
+  openSearchInput,
+  setClearCharFieldTrue,
+} from '../store/booleanValuesSlice';
+import { useAppDispatch, useAppSelector } from '../store/hooks/reduxTypescriptHooks';
+import { fetchCharsByName, fetchSingleCharacter } from '../store/rickAndMortySlice';
 
-type SetPropTypes = {
-  setSingleChar: React.Dispatch<React.SetStateAction<SingleChar | undefined>>;
-  setClearCharField: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-const SearchInput: React.FC<SetPropTypes> = ({ setSingleChar, setClearCharField }) => {
-  const [charsByName, setCharsByName] = useState<RickMortyData[]>([]);
-  const [open, setOpen] = useState(true);
+const SearchInput = () => {
+  const searchInputOpened = useAppSelector((state) => state.booleanValuesReducer.searchInputOpened);
+  const charsByName = useAppSelector((state) => state.rickAndMortyReducer.fetchedChars);
+  const dispatch = useAppDispatch();
 
   const getCharById = (id: number) => {
-    setOpen(false);
-    setClearCharField(true);
-    getSingleCharacter(id).then((char) => setSingleChar(char));
+    dispatch(closeSearchInput());
+    dispatch(setClearCharFieldTrue());
+    dispatch(fetchSingleCharacter(id));
   };
 
   return (
     <Autocomplete
       freeSolo
-      open={open}
-      onOpen={() => {
-        setOpen(true);
-      }}
-      onClose={() => {
-        setOpen(false);
-      }}
+      open={searchInputOpened}
+      onOpen={() => dispatch(openSearchInput())}
+      onClose={() => dispatch(closeSearchInput())}
       id="custom-autocomplete"
       options={charsByName}
       sx={{
         width: '70%',
         minWidth: 150,
       }}
-      onInputChange={(e: any, value: any, reason: any) =>
-        getCharByName(value).then((c) => setCharsByName(c))
-      }
-      getOptionLabel={(option: any) => `${option.name}: ${option.id}`} //filter value
+      onInputChange={(e: any, value: any, reason: any) => dispatch(fetchCharsByName(value))}
+      getOptionLabel={(option: any) => `${option.name}: ${option.id}`}
       renderInput={(params) => {
         return <TextField {...params} label="Search Character" />;
       }}

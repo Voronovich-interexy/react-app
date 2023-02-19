@@ -47,18 +47,22 @@ export interface INavBarProps {
   drawerWidth: number;
 }
 
-export type CardsProps = {
-  cards: ArrayOfChars[];
-};
-
 export type AnimationStartedType = {
   animationStarted: boolean;
 };
-export type MainComponentProps = {
-  setSingleChar: React.Dispatch<React.SetStateAction<SingleChar | undefined>>;
-  singleChar: SingleChar | undefined;
-  cards: ArrayOfChars[];
+
+export type RickMortyState = {
+  fetchedChars: RickMortyData[];
+  loading: boolean;
+  error: string | null;
+  singleCharacter: SingleChar | null;
+  fourPersons: ArrayOfChars[];
+};
+
+export type BooleanSliceState = {
   animationStarted: boolean;
   clearCharField: boolean;
-  setClearCharField: React.Dispatch<React.SetStateAction<boolean>>;
+  mobileOpen: boolean;
+  clickedShowEpisodes: boolean;
+  searchInputOpened: boolean;
 };

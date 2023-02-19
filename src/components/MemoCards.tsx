@@ -5,10 +5,12 @@ import CardContent from '@mui/material/CardContent/CardContent';
 import CardHeader from '@mui/material/CardHeader/CardHeader';
 import CardMedia from '@mui/material/CardMedia/CardMedia';
 import red from '@mui/material/colors/red';
-import React, { useMemo } from 'react';
-import { CardsProps, SwitchReturned } from '../types/types';
-
+import React, { useMemo, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../store/hooks/reduxTypescriptHooks';
+import { fetchFourPersons } from '../store/rickAndMortySlice';
+import { SwitchReturned } from '../types/types';
 import { CustomCard } from './components.styled';
+
 function setColor(
   status: string,
 ):
@@ -30,31 +32,44 @@ function setColor(
   }
 }
 
-const MemoCards = ({ cards }: CardsProps) => {
+const MemoCards = () => {
+  const fourPersons = useAppSelector((state) => state.rickAndMortyReducer.fourPersons);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchFourPersons([1, 2, 3, 4]));
+  }, [dispatch]);
+
   const memoCards = useMemo(() => {
-    return cards.map((card) => {
+    return fourPersons.map((person) => {
       return (
-        <CustomCard key={card.data.id} sx={{ width: '100%', maxWidth: 345 }}>
+        <CustomCard key={person.data.id} sx={{ width: '100%', maxWidth: 345 }}>
           <CardHeader
             avatar={
               <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                {card.data.name.slice(0, 3)}
+                {person.data.name.slice(0, 3)}
               </Avatar>
             }
-            title={card.data.name}
-            subheader={card.data.created.slice(0, 10)}
+            title={person.data.name}
+            subheader={person.data.created.slice(0, 10)}
           />
-          <CardMedia component="img" height="194" image={card.data.image} alt={card.data.name} />
+          <CardMedia
+            component="img"
+            height="194"
+            image={person.data.image}
+            alt={person.data.name}
+          />
           <CardContent>
             <Typography variant="body2" color="text.secondary">
-              Location: {card.data.location.name}
+              Location: {person.data.location.name}
             </Typography>
-            <Chip label={card.data.status} color={setColor(card.data.status)} />
+            <Chip label={person.data.status} color={setColor(person.data.status)} />
           </CardContent>
         </CustomCard>
       );
     });
-  }, [cards]);
+  }, [fourPersons]);
+
   return (
     <Box
       sx={{
@@ -63,7 +78,7 @@ const MemoCards = ({ cards }: CardsProps) => {
         backgroundColor: '#40c4ff',
       }}
     >
-      {cards.length ? (
+      {fourPersons.length ? (
         <div
           style={{
             display: 'flex',

@@ -1,9 +1,16 @@
 import Box from '@mui/material/Box/Box';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Transition } from 'react-transition-group';
-import { AnimationStartedType } from '../types/types';
+import { startAnimation } from '../store/booleanValuesSlice';
+import { useAppSelector, useAppDispatch } from '../store/hooks/reduxTypescriptHooks';
 
-const BoxReactAnimation = ({ animationStarted }: AnimationStartedType) => {
+const BoxReactAnimation = () => {
+  const animationStarted = useAppSelector((state) => state.booleanValuesReducer.animationStarted);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(startAnimation());
+  }, [dispatch]);
   return (
     <Box
       sx={{

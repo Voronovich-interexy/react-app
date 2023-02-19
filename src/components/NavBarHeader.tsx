@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -16,6 +16,8 @@ import {
 } from '@mui/material';
 import { INavBarProps } from '../types/types';
 import Header from './Header';
+import { useAppDispatch, useAppSelector } from '../store/hooks/reduxTypescriptHooks';
+import { toggleMobileOpen } from '../store/booleanValuesSlice';
 
 const drawer = (
   <List>
@@ -31,11 +33,9 @@ const drawer = (
 );
 
 const NavBarHeader = ({ drawerWidth }: INavBarProps) => {
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  const mobileOpen = useAppSelector((state) => state.booleanValuesReducer.mobileOpen);
+  const dispatch = useAppDispatch();
 
-  const [mobileOpen, setMobileOpen] = useState(false);
   return (
     <>
       <AppBar
@@ -51,7 +51,7 @@ const NavBarHeader = ({ drawerWidth }: INavBarProps) => {
             color="inherit"
             aria-label="open drawer"
             edge="start"
-            onClick={handleDrawerToggle}
+            onClick={() => dispatch(toggleMobileOpen())}
             sx={{ mr: 2, display: { md: 'none' } }}
           >
             <MenuIcon />
@@ -67,7 +67,7 @@ const NavBarHeader = ({ drawerWidth }: INavBarProps) => {
         <Drawer
           variant="temporary"
           open={mobileOpen}
-          onClose={handleDrawerToggle}
+          onClose={() => dispatch(toggleMobileOpen())}
           ModalProps={{
             keepMounted: true,
           }}

@@ -3,18 +3,16 @@ import MenuItem from '@mui/material/MenuItem/MenuItem';
 import React, { useState } from 'react';
 
 const Header = () => {
-  function handleClick(
-    event: React.MouseEvent<HTMLElement> | React.MouseEvent<HTMLHeadingElement>,
-  ) {
+  function handleClick(event: React.MouseEvent<HTMLElement>) {
     if (anchorEl !== event.currentTarget) {
-      setAnchorEl(event.currentTarget as any);
+      setAnchorEl(event.currentTarget as HTMLButtonElement);
     }
   }
   function handleClose() {
     setAnchorEl(null);
   }
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   return (
     <div className="header_content">
       <h1>HEADER</h1>

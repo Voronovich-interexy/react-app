@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box/Box';
 import Button from '@mui/material/Button/Button';
@@ -6,26 +6,23 @@ import Card from '@mui/material/Card/Card';
 import CardActions from '@mui/material/CardActions/CardActions';
 import CardContent from '@mui/material/CardContent/CardContent';
 import CardMedia from '@mui/material/CardMedia/CardMedia';
-import { SingleChar } from '../types/types';
+import { hideEpisodes, setClearCharFieldFalse, showEpisodes } from '../store/booleanValuesSlice';
 
-type SingleCardProps = {
-  singleChar: SingleChar | undefined;
-  clearCharField: boolean;
-  setClearCharField: React.Dispatch<React.SetStateAction<boolean>>;
-  setSingleChar: React.Dispatch<React.SetStateAction<SingleChar | undefined>>;
-};
+import { useAppDispatch, useAppSelector } from '../store/hooks/reduxTypescriptHooks';
+import { clearSingleCharacter } from '../store/rickAndMortySlice';
 
-const SingleCard: React.FC<SingleCardProps> = ({
-  singleChar,
-  clearCharField,
-  setClearCharField,
-  setSingleChar,
-}) => {
-  const [clicked, setClicked] = useState(false);
+const SingleCard = () => {
+  const clearCharField = useAppSelector((state) => state.booleanValuesReducer.clearCharField);
+  const singleCharacter = useAppSelector((state) => state.rickAndMortyReducer.singleCharacter);
+
+  const clickedShowEpisodes = useAppSelector(
+    (state) => state.booleanValuesReducer.clickedShowEpisodes,
+  );
+  const dispatch = useAppDispatch();
 
   const clearCard = () => {
-    setClearCharField(false);
-    setSingleChar(undefined);
+    dispatch(setClearCharFieldFalse());
+    dispatch(clearSingleCharacter());
   };
 
   return (
@@ -36,7 +33,7 @@ const SingleCard: React.FC<SingleCardProps> = ({
         backgroundColor: '#40c4ff',
       }}
     >
-      {singleChar && clearCharField ? (
+      {singleCharacter && clearCharField ? (
         <div
           style={{
             display: 'flex',
@@ -58,42 +55,42 @@ const SingleCard: React.FC<SingleCardProps> = ({
 
           <Card sx={{ minWidth: 180 }}>
             <CardContent>
-              {clicked && (
+              {clickedShowEpisodes && (
                 <CardActions>
-                  <Button color="secondary" size="small" onClick={() => setClicked(false)}>
+                  <Button color="secondary" size="small" onClick={() => dispatch(hideEpisodes())}>
                     Hide episodes
                   </Button>
                 </CardActions>
               )}
 
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                {!clicked ? 'Basic info about' : 'Episodeds'}
+                {!clickedShowEpisodes ? 'Basic info about' : 'Episodeds'}
               </Typography>
               <Typography variant="h5" component="div">
-                {singleChar.name}
+                {singleCharacter.name}
               </Typography>
               <CardMedia
                 component="img"
                 height="194"
-                image={singleChar.image}
-                alt={singleChar.name}
+                image={singleCharacter.image}
+                alt={singleCharacter.name}
               />
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                Location: {singleChar.location.name}
+                Location: {singleCharacter.location.name}
               </Typography>
               <Typography variant="subtitle1">
-                {!clicked ? `Gender: ${singleChar.gender}` : 'List of episodes'}
+                {!clickedShowEpisodes ? `Gender: ${singleCharacter.gender}` : 'List of episodes'}
               </Typography>
-              {clicked &&
-                singleChar.episode.map((e) => (
+              {clickedShowEpisodes &&
+                singleCharacter.episode.map((e) => (
                   <Typography key={e} variant="body2">
                     {e}
                   </Typography>
                 ))}
             </CardContent>
-            {!clicked && (
+            {!clickedShowEpisodes && (
               <CardActions>
-                <Button size="small" onClick={() => setClicked(true)}>
+                <Button size="small" onClick={() => dispatch(showEpisodes())}>
                   Learn More
                 </Button>
               </CardActions>
