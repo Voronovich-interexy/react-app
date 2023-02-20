@@ -7,6 +7,7 @@ import {
 } from '../store/booleanValuesSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks/reduxTypescriptHooks';
 import { fetchCharsByName, fetchSingleCharacter } from '../store/rickAndMortySlice';
+import debounce from 'lodash.debounce';
 
 const SearchInput = () => {
   const searchInputOpened = useAppSelector((state) => state.booleanValuesReducer.searchInputOpened);
@@ -31,7 +32,10 @@ const SearchInput = () => {
         width: '70%',
         minWidth: 150,
       }}
-      onInputChange={(e: any, value: any, reason: any) => dispatch(fetchCharsByName(value))}
+      onInputChange={debounce(
+        (e: any, value: string, reason: any) => dispatch(fetchCharsByName(value)),
+        300,
+      )}
       getOptionLabel={(option: any) => `${option.name}: ${option.id}`}
       renderInput={(params) => {
         return <TextField {...params} label="Search Character" />;

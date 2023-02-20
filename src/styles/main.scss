@@ -82,3 +82,17 @@
       align-items: flex-start;
    }
 }
+
+.MuiFormHelperText-root {
+   color: #f44336 !important;
+}
+
+.MuiOutlinedInput-root {
+   & input[aria-describedby] + fieldset {
+      border-color: #f44336 !important;
+   }
+}
+
+.Mui-error {
+   color: #f44336 !important;
+}

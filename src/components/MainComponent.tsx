@@ -4,7 +4,7 @@ import BoxCssAnimation from './BoxCssAnimation';
 import BoxReactAnimation from './BoxReactAnimation';
 import ChartLine from './ChartLine';
 import { Content } from './components.styled';
-import FormComponent from './FormComponent';
+import FormComponent from './Form/FormComponent';
 import FormData from './FormData';
 import MemoCards from './MemoCards';
 import SearchInput from './SearchInput';

@@ -2,26 +2,16 @@ import React from 'react';
 import { useForm, Controller, FieldValues } from 'react-hook-form';
 
 import { Box, Button, TextField } from '@mui/material';
-import { useAppDispatch } from '../store/hooks/reduxTypescriptHooks';
-import { setFormData } from '../store/formDataSlice';
+import { useAppDispatch } from '../../store/hooks/reduxTypescriptHooks';
+import { setFormData } from '../../store/formDataSlice';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-
-export const schema = yup
-  .object({
-    login: yup.string().required('Login is a required field'),
-    password: yup
-      .string()
-      .required('Password is a required field')
-      .min(5, 'Min 5 symbols')
-      .matches(/^[0-9a-zA-Z]{5,}$/, 'Password incorrect'),
-  })
-  .required();
+import { schema } from './FromComponent.constants';
 
 const FormComponent = () => {
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm({ mode: 'all', resolver: yupResolver(schema) });
 
@@ -29,6 +19,7 @@ const FormComponent = () => {
 
   const onSubmit = (data: FieldValues) => {
     dispatch(setFormData(data));
+    reset();
   };
 
   //TODO - work incorrectly
@@ -47,14 +38,29 @@ const FormComponent = () => {
       >
         <Controller
           render={({ field }) => (
-            <TextField autoComplete="off" variant="outlined" label="Login" {...field} />
+            <TextField
+              helperText={errors.login ? `${errors.login.message}` : ''}
+              autoComplete="off"
+              variant="outlined"
+              error={errors.login ? true : false}
+              label="Login"
+              {...field}
+            />
           )}
           name="login"
           control={control}
           defaultValue=""
         />
         <Controller
-          render={({ field }) => <TextField label="Password" type="password" {...field} />}
+          render={({ field }) => (
+            <TextField
+              helperText={errors.password ? `${errors.password.message}` : ''}
+              label="Password"
+              type="password"
+              {...field}
+              error={errors.password ? true : false}
+            />
+          )}
           name="password"
           control={control}
           defaultValue=""
