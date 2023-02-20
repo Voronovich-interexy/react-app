@@ -5,7 +5,7 @@ import { Box, Button, TextField } from '@mui/material';
 import { useAppDispatch } from '../../store/hooks/reduxTypescriptHooks';
 import { setFormData } from '../../store/formDataSlice';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schema } from './FromComponent.constants';
+import { schema } from './FormComponent.constants';
 
 const FormComponent = () => {
   const {
@@ -21,8 +21,6 @@ const FormComponent = () => {
     dispatch(setFormData(data));
     reset();
   };
-
-  //TODO - work incorrectly
 
   return (
     <form style={{ width: '80%' }} onSubmit={handleSubmit(onSubmit)}>
