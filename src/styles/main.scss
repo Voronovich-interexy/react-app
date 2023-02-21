@@ -63,15 +63,28 @@
 
 .header_content {
    @media screen and (max-width: 867.5px) {
-      height: 150px;
+      height: 220px;
+      gap: 5px;
+      justify-content: center;
    }
    width: 100%;
    height: 80px;
+   gap: 20px;
    margin: 0 auto;
    display: flex;
    flex-direction: column;
-   justify-content: center;
+   justify-content: space-between;
    align-items: center;
+   padding: 10px;
+}
+
+.MuiFab-circular.MuiFab-primary {
+   width: 35px;
+   height: 35px;
+   background-color: #f06292;
+   &:hover {
+      background-color: #e91e63;
+   }
 }
 
 .dropdowns {
@@ -80,7 +93,14 @@
       width: 100%;
       flex-direction: column;
       align-items: flex-start;
+      gap: 3px;
    }
+   position: relative;
+   display: flex;
+   width: 100%;
+   height: auto;
+   gap: 10px;
+   justify-content: center;
 }
 
 .MuiFormHelperText-root {
