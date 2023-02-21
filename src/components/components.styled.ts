@@ -6,7 +6,7 @@ import { Box } from '@mui/system';
 export const GridContainer = styled(Grid)`
   width: 100% !important;
   @media screen and (max-width: 867.5px) {
-    padding: 220px 0 0 0;
+    padding: 150px 0 0 0;
   }
   min-height: 100vh;
   padding: 80px 0 0 0;

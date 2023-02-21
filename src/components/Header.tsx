@@ -35,40 +35,6 @@ const Header = () => {
       <h1>HEADER</h1>
       <div className="dropdowns">
         {['q', 'w', 'e'].map((e) => (
-          <SpeedDial
-            sx={{ display: { xs: 'flex', md: 'none' } }}
-            key={e}
-            ariaLabel="SpeedDial playground example"
-            icon={<SpeedDialIcon />}
-            direction={'right'}
-          >
-            {actions.map((action) => (
-              <SpeedDialAction
-                key={action.name}
-                icon={action.icon}
-                tooltipTitle={action.name}
-              />
-            ))}
-          </SpeedDial>
-        ))}
-        {['q', 'w', 'e'].map((e) => (
-          <SpeedDial
-            sx={{ display: { xs: 'none', md: 'flex' } }}
-            key={e}
-            ariaLabel="SpeedDial playground example"
-            icon={<SpeedDialIcon />}
-            direction={'down'}
-          >
-            {actions.map((action) => (
-              <SpeedDialAction
-                key={action.name}
-                icon={action.icon}
-                tooltipTitle={action.name}
-              />
-            ))}
-          </SpeedDial>
-        ))}
-        {/* {['q', 'w', 'e'].map((e) => (
           <Button
             key={e}
             aria-owns={anchorEl ? 'simple-menu' : undefined}
@@ -92,7 +58,7 @@ const Header = () => {
           <MenuItem onClick={handleClose}>Profile</MenuItem>
           <MenuItem onClick={handleClose}>My account</MenuItem>
           <MenuItem onClick={handleClose}>Logout</MenuItem>
-        </Menu> */}
+        </Menu>
       </div>
     </div>
   );
