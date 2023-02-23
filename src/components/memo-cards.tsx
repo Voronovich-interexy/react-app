@@ -1,3 +1,6 @@
+import React, { useMemo, useEffect } from 'react';
+
+// ================== MUI ==================
 import { Chip, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar/Avatar';
 import Box from '@mui/material/Box/Box';
@@ -5,11 +8,21 @@ import CardContent from '@mui/material/CardContent/CardContent';
 import CardHeader from '@mui/material/CardHeader/CardHeader';
 import CardMedia from '@mui/material/CardMedia/CardMedia';
 import red from '@mui/material/colors/red';
-import React, { useMemo, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../store/hooks/reduxTypescriptHooks';
-import { fetchFourPersons } from '../store/rickAndMortySlice';
-import { SwitchReturned } from '../types/types';
+
+// ================== Styled Components ==================
 import { CustomCard } from './components.styled';
+
+// ================== Types ==================
+import { SwitchReturned } from '../types/types';
+
+// ================== Redux actions ==================
+import { fetchFourPersons } from '../redux/characters/characters.actions';
+
+// ================== Redux selectors ==================
+import { useCharacterSelector } from '../redux/characters/characters.selectors';
+
+// ================== Redux dispatch ==================
+import { useAppDispatch } from '../redux/hooks/redux-typescript-hooks';
 
 function setColor(
   status: string,
@@ -32,8 +45,8 @@ function setColor(
   }
 }
 
-const MemoCards = () => {
-  const fourPersons = useAppSelector((state) => state.rickAndMortyReducer.fourPersons);
+const MemoCards: React.FC = () => {
+  const { fourPersons } = useCharacterSelector();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -63,7 +76,10 @@ const MemoCards = () => {
             <Typography variant="body2" color="text.secondary">
               Location: {person.data.location.name}
             </Typography>
-            <Chip label={person.data.status} color={setColor(person.data.status)} />
+            <Chip
+              label={person.data.status}
+              color={setColor(person.data.status)}
+            />
           </CardContent>
         </CustomCard>
       );

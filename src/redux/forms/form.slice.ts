@@ -1,11 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-type FormDataState = {
-  dataFromForm: {
-    login: string;
-    password: string;
-  };
-};
+import { FormDataState } from '../../types/types';
 
 const initialState: FormDataState = {
   dataFromForm: {
@@ -14,7 +8,7 @@ const initialState: FormDataState = {
   },
 };
 
-const formDataSlice = createSlice({
+export const formDataSlice = createSlice({
   name: 'formData',
   initialState,
   reducers: {
@@ -23,7 +17,5 @@ const formDataSlice = createSlice({
     },
   },
 });
-
-export const { setFormData } = formDataSlice.actions;
 
 export default formDataSlice.reducer;

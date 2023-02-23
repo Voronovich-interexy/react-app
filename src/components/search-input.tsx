@@ -1,17 +1,32 @@
 import React from 'react';
+
+// ================== MUI ==================
 import { Autocomplete, TextField } from '@mui/material';
+
+// ================== Redux actions ==================
 import {
   closeSearchInput,
   openSearchInput,
   setClearCharFieldTrue,
-} from '../store/booleanValuesSlice';
-import { useAppDispatch, useAppSelector } from '../store/hooks/reduxTypescriptHooks';
-import { fetchCharsByName, fetchSingleCharacter } from '../store/rickAndMortySlice';
+} from '../redux/booleans/booleans.actions';
+import {
+  fetchCharsByName,
+  fetchSingleCharacter,
+} from '../redux/characters/characters.actions';
+
+// ================== Redux selectors ==================
+import { useCharacterSelector } from '../redux/characters/characters.selectors';
+import { useBooleansSelector } from '../redux/booleans/booleans.selectors';
+
+// ================== Redux dispatch ==================
+import { useAppDispatch } from '../redux/hooks/redux-typescript-hooks';
+
+// ================== Lodash debounce ==================
 import debounce from 'lodash.debounce';
 
-const SearchInput = () => {
-  const searchInputOpened = useAppSelector((state) => state.booleanValuesReducer.searchInputOpened);
-  const charsByName = useAppSelector((state) => state.rickAndMortyReducer.fetchedChars);
+const SearchInput: React.FC = () => {
+  const { searchInputOpened } = useBooleansSelector();
+  const { fetchedChars } = useCharacterSelector();
   const dispatch = useAppDispatch();
 
   const getCharById = (id: number) => {
@@ -27,13 +42,14 @@ const SearchInput = () => {
       onOpen={() => dispatch(openSearchInput())}
       onClose={() => dispatch(closeSearchInput())}
       id="custom-autocomplete"
-      options={charsByName}
+      options={fetchedChars}
       sx={{
         width: '70%',
         minWidth: 150,
       }}
       onInputChange={debounce(
-        (e: any, value: string, reason: any) => dispatch(fetchCharsByName(value)),
+        (e: any, value: string, reason: any) =>
+          dispatch(fetchCharsByName(value)),
         300,
       )}
       getOptionLabel={(option: any) => `${option.name}: ${option.id}`}

@@ -1,4 +1,6 @@
 import React from 'react';
+
+// ================== MUI ==================
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -14,17 +16,30 @@ import {
   Drawer,
   Box,
 } from '@mui/material';
+
+// ================== React Components ==================
+import Header from './header';
+
+// ================== Types ==================
 import { INavBarProps } from '../types/types';
-import Header from './Header';
-import { useAppDispatch, useAppSelector } from '../store/hooks/reduxTypescriptHooks';
-import { toggleMobileOpen } from '../store/booleanValuesSlice';
+
+// ================== Redux actions ==================
+import { toggleMobileOpen } from '../redux/booleans/booleans.actions';
+
+// ================== Redux selectors ==================
+import { useBooleansSelector } from '../redux/booleans/booleans.selectors';
+
+// ================== Redux dispatch ==================
+import { useAppDispatch } from '../redux/hooks/redux-typescript-hooks';
 
 const drawer = (
   <List>
     {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
       <ListItem key={text} disablePadding>
         <ListItemButton>
-          <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+          <ListItemIcon>
+            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+          </ListItemIcon>
           <ListItemText primary={text} />
         </ListItemButton>
       </ListItem>
@@ -32,8 +47,10 @@ const drawer = (
   </List>
 );
 
-const NavBarHeader = ({ drawerWidth }: INavBarProps) => {
-  const mobileOpen = useAppSelector((state) => state.booleanValuesReducer.mobileOpen);
+const NavBarHeader: React.FC<INavBarProps> = ({
+  drawerWidth,
+}: INavBarProps) => {
+  const { mobileOpen } = useBooleansSelector();
   const dispatch = useAppDispatch();
 
   return (
@@ -73,7 +90,10 @@ const NavBarHeader = ({ drawerWidth }: INavBarProps) => {
           }}
           sx={{
             display: { xs: 'block', md: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+            },
           }}
         >
           {drawer}
@@ -82,7 +102,10 @@ const NavBarHeader = ({ drawerWidth }: INavBarProps) => {
           variant="permanent"
           sx={{
             display: { xs: 'none', md: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+            },
           }}
           open
         >

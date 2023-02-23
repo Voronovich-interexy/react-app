@@ -1,9 +1,14 @@
 import React from 'react';
-import { Line } from 'react-chartjs-2';
-import { Chart, registerables } from 'chart.js';
+
+// ================== MUI ==================
 import Box from '@mui/material/Box/Box';
 
+// ================== Chart js ==================
+import { Line } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
+
 const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
+
 Chart.register(...registerables);
 const data = {
   labels: labels,
@@ -22,7 +27,7 @@ const data = {
     },
   ],
 };
-const ChartLine = () => {
+const ChartLine: React.FC = () => {
   return (
     <Box
       sx={{

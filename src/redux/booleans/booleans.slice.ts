@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { BooleanSliceState } from '../types/types';
+import { BooleanSliceState } from '../../types/types';
 
 const initialState: BooleanSliceState = {
   animationStarted: false,
@@ -9,7 +9,7 @@ const initialState: BooleanSliceState = {
   searchInputOpened: true,
 };
 
-const booleanSlice = createSlice({
+export const booleanSlice = createSlice({
   name: 'booleans',
   initialState,
   reducers: {
@@ -39,16 +39,5 @@ const booleanSlice = createSlice({
     },
   },
 });
-
-export const {
-  setClearCharFieldTrue,
-  setClearCharFieldFalse,
-  toggleMobileOpen,
-  startAnimation,
-  showEpisodes,
-  hideEpisodes,
-  openSearchInput,
-  closeSearchInput,
-} = booleanSlice.actions;
 
 export default booleanSlice.reducer;

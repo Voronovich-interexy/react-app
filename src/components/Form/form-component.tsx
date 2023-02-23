@@ -1,11 +1,18 @@
 import React from 'react';
-import { useForm, Controller, FieldValues } from 'react-hook-form';
 
+// ================== MUI ==================
 import { Box, Button, TextField } from '@mui/material';
-import { useAppDispatch } from '../../store/hooks/reduxTypescriptHooks';
-import { setFormData } from '../../store/formDataSlice';
+
+// ================== Hook forms, validation ==================
+import { useForm, Controller, FieldValues } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schema } from './FormComponent.constants';
+import { schema } from './form-component.constants';
+
+// ================== Redux actions ==================
+import { setFormData } from '../../redux/forms/form.actions';
+
+// ================== Redux dispatch ==================
+import { useAppDispatch } from '../../redux/hooks/redux-typescript-hooks';
 
 const FormComponent = () => {
   const {

@@ -1,8 +1,8 @@
 import $api from '../Api';
 
-export const getCharacter = async () => {
+export const getAllCharacters = async () => {
   const { data } = await $api.get('character/');
-  return data;
+  return data.results;
 };
 export const getSingleCharacter = async (id: number) => {
   const { data } = await $api.get('character/' + id);

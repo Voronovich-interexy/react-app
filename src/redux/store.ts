@@ -1,15 +1,15 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 
-import booleanValuesReducer from './booleanValuesSlice';
-import rickAndMortyReducer from './rickAndMortySlice';
-import formDataReducer from './formDataSlice';
+import booleanValuesReducer from './booleans/booleans.slice';
+import rickAndMortyReducer from './characters/characters.slice';
+import formDataReducer from './forms/form.slice';
 
 const middlewareNoSerializableCheck = getDefaultMiddleware({
   serializableCheck: false,
 });
 
 const store = configureStore({
-  reducer: { rickAndMortyReducer, booleanValuesReducer, formDataReducer },
+  reducer: { booleanValuesReducer, formDataReducer, rickAndMortyReducer },
   middleware: middlewareNoSerializableCheck,
 });
 

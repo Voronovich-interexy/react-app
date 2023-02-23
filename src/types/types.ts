@@ -32,6 +32,21 @@ export type ArrayOfChars = {
     };
   };
 };
+export type ArrayOfAllChars = {
+  name: string;
+  gender: string;
+  id: number;
+  status: string;
+  species: string;
+  created: string;
+  image: string;
+  location: {
+    name: string;
+  };
+  origin: {
+    name: string;
+  };
+};
 
 export enum SwitchReturned {
   Success = 'success',
@@ -57,6 +72,7 @@ export type RickMortyState = {
   error: string | null;
   singleCharacter: SingleChar | null;
   fourPersons: ArrayOfChars[];
+  allPersons: ArrayOfAllChars[];
 };
 
 export type BooleanSliceState = {
@@ -65,4 +81,16 @@ export type BooleanSliceState = {
   mobileOpen: boolean;
   clickedShowEpisodes: boolean;
   searchInputOpened: boolean;
+};
+
+export type FormDataState = {
+  dataFromForm: {
+    login: string;
+    password: string;
+  };
+};
+
+export type ChildrenPropsMainComponent = {
+  children: React.ReactNode;
+  drawerWidth: number;
 };

@@ -1,6 +1,11 @@
-import { createSlice, PayloadAction, createAsyncThunk, AnyAction } from '@reduxjs/toolkit';
-import { fetchFourChars, getCharByName, getSingleCharacter } from '../api/characters';
-import { ArrayOfChars, RickMortyData, RickMortyState, SingleChar } from '../types/types';
+import { createSlice, PayloadAction, AnyAction } from '@reduxjs/toolkit';
+import { RickMortyState } from '../../types/types';
+import {
+  fetchAllPersons,
+  fetchCharsByName,
+  fetchFourPersons,
+  fetchSingleCharacter,
+} from './characters.actions';
 
 const initialState: RickMortyState = {
   fetchedChars: [],
@@ -8,31 +13,8 @@ const initialState: RickMortyState = {
   error: null,
   singleCharacter: null,
   fourPersons: [],
+  allPersons: [],
 };
-
-export const fetchCharsByName = createAsyncThunk<RickMortyData[], string>(
-  'rickAndMortySlice/fetchCharsByName',
-  async function (text) {
-    const response = await getCharByName(text);
-    return response;
-  },
-);
-
-export const fetchSingleCharacter = createAsyncThunk<SingleChar, number>(
-  'rickAndMortySlice/fetchSingleCharacter',
-  async function (id) {
-    const response = await getSingleCharacter(id);
-    return response;
-  },
-);
-
-export const fetchFourPersons = createAsyncThunk<ArrayOfChars[], number[]>(
-  'rickAndMortySlice/fetchFourPersons',
-  async function (ids) {
-    const response = await fetchFourChars(ids);
-    return response;
-  },
-);
 
 const rickAndMortySlice = createSlice({
   name: 'rickAndMortySlice',
@@ -71,6 +53,15 @@ const rickAndMortySlice = createSlice({
         state.loading = false;
         state.error = null;
       })
+      .addCase(fetchAllPersons.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAllPersons.fulfilled, (state, action) => {
+        state.allPersons = action.payload;
+        state.loading = false;
+        state.error = null;
+      })
       .addMatcher(isError, (state, action: PayloadAction<string>) => {
         state.error = action.payload;
         state.loading = false;
@@ -78,10 +69,10 @@ const rickAndMortySlice = createSlice({
   },
 });
 
-export const { clearSingleCharacter } = rickAndMortySlice.actions;
-
 export default rickAndMortySlice.reducer;
 
 function isError(action: AnyAction) {
   return action.type.endsWith('rejected');
 }
+
+export const { clearSingleCharacter } = rickAndMortySlice.actions;
